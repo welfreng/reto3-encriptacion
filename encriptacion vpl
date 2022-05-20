@@ -1,0 +1,64 @@
+import numpy as np
+import random
+
+def encriptado(texto):
+    vlrDesordenados = []
+    clave = []
+    
+    #verificamos si el texto es apto para la matriz
+    cntCaracter = (len(texto))**(1/2)
+    
+    #validamos si es entero o no la longitud del mensaje
+    if (cntCaracter//1) != cntCaracter:
+        cntCaracter = (cntCaracter//1)+1
+        
+    #convertimos el strin en entero
+    cntCaracter = int(cntCaracter)
+    
+    #validamos si el texto es mayor que 4 para realizar la matriz cuadrada
+    if (len(texto)) >= 4:
+        
+        #llenamos una lista con los caracteres
+        for i in range(len(texto), cntCaracter*cntCaracter):
+            texto = texto + '_'
+        
+        #convertimos el texto en una lista
+        texto = list(texto)
+        
+        #llenamos la lista vacia con los indices en el orden correcto
+        for i in range(len(texto)):
+            clave.append(i)
+        
+        #desordeno la lisa clave
+        random.shuffle(clave)
+        
+        #llenamos la lista desordenados con los valores desordenados
+        for i in clave:
+            vlrDesordenados.append(ord(texto[i]))
+            
+        #creamos la matriz nxn   
+        array_final = np.array(vlrDesordenados).reshape(cntCaracter , cntCaracter)
+
+    return array_final, clave
+
+
+def desencriptado(array_encriptado, clave):
+    
+    texto = []
+    #Genero una lista partiendo de una matriz existente
+    listaTexto=array_encriptado.ravel().tolist() 
+        
+    #lleamos la lista con los caracteres encriptados
+    for i in range(len(listaTexto)):
+        aux=clave.index(i)
+        texto.append(chr(listaTexto[aux]))
+        
+    #convertimos la lista en una cadena de texto    
+    texto = "".join(texto)
+    
+    #eliminamos los caracteres que no necesitamos
+    texto = texto.replace('_','')
+    
+    print(texto) 
+    
+    return texto
