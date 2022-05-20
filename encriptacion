@@ -1,0 +1,79 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue May 17 06:28:46 2022
+
+@author: Compumag
+"""
+
+import numpy as np
+import random
+
+#contamos los caracteres de un string
+def encriptado(texto):
+    desordenados = []
+    
+    clave = []
+    
+    #verificamos si el texto es apto para la matriz
+    cntCaracter = (len(texto))**(1/2)
+    
+    #validamossi es entero o no la longitud del mensaje
+    if (cntCaracter//1) != cntCaracter:
+        cntCaracter = (cntCaracter//1)+1
+    cntCaracter = int(cntCaracter)
+    
+    #validamos si es texto es mayor que 4 para realizar la matriz cuadrada
+    if (len(texto)) >= 4:
+        
+        #llenamos una lista con los caracteres
+        for i in range(len(texto), cntCaracter*cntCaracter):
+            texto = texto + '_'
+        
+        #convertimos el texto en una lista
+        texto = list(texto)
+        
+        #llenamos la lista vacia con los indices en el orden correcto
+        for i in range(len(texto)):
+            clave.append(i)
+        
+        #desordeno la lisa clave
+        #random.shuffle(clave)
+        
+        desorden = clave
+        random.shuffle(desorden)
+        #llenamos la lista desordenados con los valores desordenados
+        for i in desorden:
+            desordenados.append(ord(texto[i]))
+            
+        #creamos la matriz nxn   
+        
+        matriz_encriptado = np.array(desordenados).reshape(cntCaracter , cntCaracter)
+        
+        
+        return matriz_encriptado, clave 
+    
+def desencriptado(matriz_encriptado, clave):
+    
+    #Genero una lista partiendo de una matriz existente
+    listaTexto=matriz_encriptado.ravel().tolist() 
+        
+    #lleamos la lista con los caracteres encriptados
+    desencriptados = []
+    for i in range(len(listaTexto)):
+        aux=clave.index(i)
+        desencriptados.append(chr(listaTexto[aux]))
+        
+        
+    desencriptados = "".join(desencriptados)
+    desencriptados = desencriptados.replace('_','')
+    print(desencriptados)     
+            
+        
+#aqui probamos
+matriz_encriptado, clave = encriptado(input('digita mensaje '))
+
+desencriptado(matriz_encriptado,clave)
+        
+
+
+
